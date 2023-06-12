@@ -6,14 +6,18 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@Testcontainers
 class CourseServiceTest {
 
+    @Container
     private static final PostgreSQLContainer<?> container =  new PostgreSQLContainer<>("postgres:alpine");;
     private static CourseService courseService;
 
@@ -34,17 +38,18 @@ class CourseServiceTest {
     public void tearDown() {
         // Stop the PostgreSQL container
         container.stop();
+        courseService.closeCourseService();
     }
 
     @Test
-    void registerCourse() {
+    void testRegisterCourse() {
         Course course = courseService.registerCourse(new Course("MATHS"));
 
         assertTrue(course.getCourseId() > 0);
     }
 
     @Test
-    void getAllCourses() {
+    void testGetAllCourses() {
         List<Course> courses = new ArrayList<>(List.of(
                 new Course("MATHS"),
                 new Course("ENGLISH"),
@@ -62,7 +67,7 @@ class CourseServiceTest {
     }
 
     @Test
-    void findByCourseName() {
+    void testFindByCourseName() {
         courseService.registerCourse(new Course("MATHS"));
         Course course = courseService.findByCourseName("MATHS");
         assertEquals(course.getCourseName(), "MATHS");

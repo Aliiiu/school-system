@@ -5,12 +5,19 @@ import org.junit.jupiter.api.BeforeEach;
 
 import org.junit.jupiter.api.Test;
 import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@Testcontainers
 class AdminServiceTest {
-    private static PostgreSQLContainer<?> container = new PostgreSQLContainer<>("postgres:alpine");;
+
+    @Container
+    private static PostgreSQLContainer<?> container = new PostgreSQLContainer<>("postgres:alpine");
     private static AdminService adminService;
+
+
 
     @BeforeEach
     public void startContainer() {
@@ -23,30 +30,32 @@ class AdminServiceTest {
         System.setProperty("DB_PASSWORD", container.getPassword());
 
         adminService = new AdminService("school-test-pu");
+
     }
 
     @AfterEach
     public void tearDown() {
         // Stop the PostgreSQL container
         container.stop();
+        adminService.close();
     }
 
 
     @Test
-    void addAdmin() {
+    void testAddAdmin() {
         Admin admin = adminService.addAdmin("admin", "admin");
         assertNotNull(admin);
     }
 
     @Test
-    void findAdminByName() {
+    void testFindAdminByName() {
         adminService.addAdmin("admin", "admin");
         Admin admin = adminService.findAdminByName("admin");
-
+        assertNotNull(admin);
     }
 
     @Test
-    void changePassword() {
+    void testChangePassword() {
         adminService.addAdmin("admin", "admin");
         Admin admin = adminService.changePassword("admin", "12345");
         assertEquals("12345", admin.getPassword());

@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Iterables;
 
 public class StudentService {
@@ -30,7 +29,7 @@ public class StudentService {
         this("school-pu");
     }
     public StudentService (String pu){
-        entityManager  = JPAWrapper.getEntityManager("school-pu");
+        entityManager  = JPAWrapper.getEntityManager(pu);
         queryFactory = new JPAQueryFactory(entityManager);
         qteacher = QTeacher.teacher;
         qstudent = QStudent.student;

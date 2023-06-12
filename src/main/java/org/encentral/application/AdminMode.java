@@ -3,20 +3,13 @@ package org.encentral.application;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.encentral.BackendController;
-import org.encentral.Main;
-import org.encentral.dto.CourseDTO;
-import org.encentral.dto.StudentDTO;
-import org.encentral.dto.TeacherDTO;
-import org.encentral.entity.Admin;
-import org.encentral.entity.Student;
+import org.encentral.dto.*;
 import org.encentral.entity.Teacher;
-import org.encentral.service.StudentService;
 import org.encentral.service.TeacherService;
 import org.encentral.util.ResponseMessage;
 
 import java.util.List;
 import java.util.Scanner;
-import java.util.Set;
 
 public class AdminMode {
     private static final Logger logger = LogManager.getLogger(StudentMode.class);

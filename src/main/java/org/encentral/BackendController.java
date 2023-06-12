@@ -3,22 +3,12 @@ package org.encentral;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Preconditions;
-import org.encentral.dto.CourseDTO;
-import org.encentral.dto.StudentDTO;
-import org.encentral.entity.Admin;
-import org.encentral.entity.Course;
-import org.encentral.entity.Student;
-import org.encentral.entity.Teacher;
-import org.encentral.service.AdminService;
-import org.encentral.service.CourseService;
-import org.encentral.service.StudentService;
-import org.encentral.service.TeacherService;
+import org.encentral.dto.*;
+import org.encentral.entity.*;
+import org.encentral.service.*;
 import org.encentral.util.ResponseMessage;
 
-import java.lang.annotation.Target;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 public class BackendController {
     private static BackendController instance = null;

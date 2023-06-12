@@ -8,6 +8,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -16,7 +18,9 @@ import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@Testcontainers
 class StudentServiceTest {
+    @Container
     private static PostgreSQLContainer<?> container = new PostgreSQLContainer<>("postgres:alpine");;
     private static StudentService studentService;
     private static CourseService courseService;
@@ -33,8 +37,8 @@ class StudentServiceTest {
         System.setProperty("DB_PASSWORD", container.getPassword());
 
         studentService = new StudentService("school-test-pu");
-        courseService = new CourseService("school-test-pu");
         teacherService = new TeacherService("school-test-pu");
+        courseService = new CourseService("school-test-pu");
 
         List<Course> courses = new ArrayList<>(List.of(
                 new Course("MATHS"),
@@ -61,25 +65,45 @@ class StudentServiceTest {
     public void tearDown() {
         // Stop the PostgreSQL container
         container.stop();
+        studentService.closeStudentService();
     }
 
     @Test
-    void registerStudent() {
+    void testRegisterStudent() {
         Student student = studentService.registerStudent("aliu", 1);
         assertNotNull(student);
     }
 
     @Test
-    void getAllStudents() {
+    void testAssignedTeacher(){
+        Student student = studentService.registerStudent("aliu", 1);
+        assertNotNull(student.getPersonalGuide());
+    }
+
+    @Test
+    void testGetAllStudents() {
         studentService.registerStudent("aliu", 1);
         List<StudentDTO> studentList = studentService.getAllStudents();
         assertEquals(1, studentList.size());
     }
 
     @Test
-    void findStudentByName() {
+    void testFindStudentByName() {
         studentService.registerStudent("aliu", 1);
         Student student = studentService.findStudentByName("aliu");
         assertEquals("aliu", student.getName());
+    }
+    @Test
+    void testRegisteredCourses(){
+        Student student = studentService.registerStudent("aliu", 1);
+        Set<Course> courses = new HashSet<>();
+        courses.add(courseService.findByCourseName("MATHS"));
+        courses.add(courseService.findByCourseName("ENGLISH"));
+        courses.add(courseService.findByCourseName("AGRIC"));
+        courses.add(courseService.findByCourseName("BIOLOGY"));
+        courses.add(courseService.findByCourseName("CHEMISTRY"));
+
+        student = studentService.registerStudentCourse(student, courses);
+        assertEquals(5, student.getCourses().size());
     }
 }

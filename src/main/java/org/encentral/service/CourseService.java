@@ -7,8 +7,6 @@ import org.apache.logging.log4j.Logger;
 import org.encentral.dto.CourseDTO;
 import org.encentral.entity.Course;
 import org.encentral.entity.QCourse;
-import org.encentral.entity.QStudent;
-import org.encentral.entity.QTeacher;
 import org.encentral.util.JPAWrapper;
 
 import java.util.ArrayList;

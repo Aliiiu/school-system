@@ -1,19 +1,11 @@
 package org.encentral;
 
-import com.google.common.base.Preconditions;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Sets;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.encentral.application.AdminMode;
 import org.encentral.application.StudentMode;
-import org.encentral.dto.CourseDTO;
 import org.encentral.entity.Course;
-import org.encentral.entity.Student;
 import org.encentral.entity.Teacher;
-import org.encentral.service.CourseService;
-import org.encentral.service.StudentService;
-import org.encentral.service.TeacherService;
 
 import java.util.*;
 

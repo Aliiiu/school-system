@@ -5,10 +5,8 @@ import jakarta.persistence.EntityManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.encentral.dto.AdminDTO;
-import org.encentral.dto.StudentDTO;
 import org.encentral.entity.Admin;
 import org.encentral.entity.QAdmin;
-import org.encentral.entity.Student;
 import org.encentral.util.JPAWrapper;
 
 import java.util.ArrayList;
@@ -24,7 +22,7 @@ public class AdminService {
         this("school-pu");
     }
     public AdminService (String pu){
-        entityManager  = JPAWrapper.getEntityManager("school-pu");
+        entityManager  = JPAWrapper.getEntityManager(pu);
         queryFactory = new JPAQueryFactory(entityManager);
         qadmin = QAdmin.admin;
     }

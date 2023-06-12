@@ -3,14 +3,18 @@ package org.encentral.service;
 import org.encentral.entity.Teacher;
 import org.junit.jupiter.api.*;
 import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@Testcontainers
 class TeacherServiceTest {
 
+    @Container
     private static PostgreSQLContainer<?> container =  new PostgreSQLContainer<>("postgres:alpine");;
     private static TeacherService teacherService;
 
@@ -31,6 +35,7 @@ class TeacherServiceTest {
     public void tearDown() {
         // Stop the PostgreSQL container
         container.stop();
+        teacherService.closeTeacherService();
     }
 
     @Test
